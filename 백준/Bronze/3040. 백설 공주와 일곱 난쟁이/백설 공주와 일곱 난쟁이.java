@@ -1,12 +1,15 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Main {
 	
 	static int[] numbers, inputs;
 	static int T , P;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		
-		Scanner sc = new Scanner(System.in);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		T = 9;
 		P = 7;
@@ -14,7 +17,7 @@ public class Main {
 		inputs = new int[T];
 		
 		for(int t = 0; t < T; t++) {
-			inputs[t] = sc.nextInt();
+			inputs[t] = Integer.parseInt(br.readLine());
 		}
 		
 		combi(0, 0);
