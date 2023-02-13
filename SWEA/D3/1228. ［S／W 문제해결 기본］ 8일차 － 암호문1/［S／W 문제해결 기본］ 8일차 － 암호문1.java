@@ -1,22 +1,13 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
 public class Solution {
 	
-	class LinkedListStack<T> {
-		
-	}
-	
-
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -53,12 +44,14 @@ public class Solution {
 				for(int i = 0; i < count; i++) {
 					lList.add(num+i, tmp.get(i));
 				}
+				tmp.clear();
 			}
 			sb.append("#"+(t+1));
 			for(int i = 0; i < T; i++) {
 				sb.append(" "+lList.get(i));
 			}
 			sb.append("\n");
+			lList.clear();
 		}
 		System.out.println(sb.toString());
 	}
