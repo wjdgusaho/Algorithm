@@ -64,10 +64,6 @@ public class Solution {
 			return false;
 		}
 
-		if (cnt >= Min) {
-			return true;
-		}
-
 		for (int i = start; i < D; i++) {
 			number[cnt] = i;
 			if (comb(cnt + 1, i + 1, f))
