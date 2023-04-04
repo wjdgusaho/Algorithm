@@ -21,7 +21,10 @@ public class Main {
 	static int ADD_NUM = 3;
 	static int N, M, zeroCnt, virusCnt, answer;
 	static int[][] map;
-	static Point[] input, virus, number;
+	static Point[] number;
+	static Point[] input;
+	static int[] visited;
+	static Point[] virus;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -58,7 +61,8 @@ public class Main {
 				if(map[i][j] == 2) virus[vidx++] = new Point(i, j);
 			}
 		}
-        
+		
+		//for(int i = 0; i < zeroCnt; i++) System.out.println(input[i].r + " " + input[i].c); 
 		//최대 64 C 3 
 		//3개를 선택하는 알고리즘 - 조합
 		comb(0, 0);
@@ -69,6 +73,12 @@ public class Main {
 	private static void comb(int start, int cnt) {
 		
 		if(cnt == ADD_NUM) {
+			/*
+			System.out.print(number[0].r + " " + number[0].c +"|");
+			System.out.print(number[1].r + " " + number[1].c +"|");
+			System.out.print(number[2].r + " " + number[2].c +"|");
+			System.out.println();
+			*/
 			//bfs를 돌린다.
 			bfs();
 			return;
@@ -89,7 +99,17 @@ public class Main {
 		for(int i = 0; i < ADD_NUM; i++) {
 			copyMap[number[i].r][number[i].c] = 1;
 		}
-	
+		
+		/*
+		System.out.println("=======");
+		for(int i = 0; i < N; i++)System.out.println(Arrays.toString(copyMap[i]));
+		
+		System.out.println("바이러스 위치 체크");
+		for(int i = 0; i < virusCnt; i++) {
+			System.out.println(virus[i].r + " " + virus[i].c);
+		}
+		*/
+		
 		//2의 기준 탐색 시작
 		int[] dr = {0, 0, -1, 1};
 		int[] dc = {-1, 1, 0, 0};
@@ -113,9 +133,12 @@ public class Main {
 				//방문했거나 벽이거나 바이러스이니깐
 				if(copyMap[nr][nc] > 0) continue;
 				
-				que.offer(new int[] {nr , nc});	
+				que.offer(new int[] {nr , nc});
+				
 			}
+		
 		}
+		
 		int cnt = 0;
 		for(int i = 0; i < N; i++)for(int j = 0; j < M; j++) if(copyMap[i][j] == 0)cnt++;
 		answer = Math.max(cnt, answer);
