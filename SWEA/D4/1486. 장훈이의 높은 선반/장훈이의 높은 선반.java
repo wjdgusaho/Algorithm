@@ -20,7 +20,6 @@ public class Solution {
 			B = Integer.parseInt(st.nextToken());
 			
 			map = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-			ans = 0;
 			min = Integer.MAX_VALUE;
 			//배열 정렬 
 			Arrays.sort(map);
@@ -28,8 +27,7 @@ public class Solution {
 			for(int i = 1; i <= N; i++) {
 				comb(0, 0, i, 0);
 			}
-			ans = min;
-			System.out.println("#"+tc+" "+ans);
+			System.out.println("#"+tc+" "+min);
 		}
 		
 	}
@@ -43,7 +41,6 @@ public class Solution {
 			}
 			return;
 		}
-		
 		for(int i = start; i < N; i++) {
 			comb(i+1, cnt+1, f, sums+map[i]);
 		}
