@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 
 public class Solution {
 	
-	static int N, B, map[], numbers[], ans, min;
+	static int N, B, map[], ans, min;
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -26,7 +26,6 @@ public class Solution {
 			Arrays.sort(map);
 			
 			for(int i = 1; i <= N; i++) {
-				numbers = new int[i];
 				comb(0, 0, i, 0);
 			}
 			ans = min;
