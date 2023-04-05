@@ -21,8 +21,6 @@ public class Solution {
 			
 			map = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 			min = Integer.MAX_VALUE;
-			//배열 정렬 
-			Arrays.sort(map);
 			
 			for(int i = 1; i <= N; i++) {
 				comb(0, 0, i, 0);
@@ -34,7 +32,7 @@ public class Solution {
 	
 	static void comb(int start, int cnt, int f, int sums){
 		
-		if(sums - B > min) return;
+		if(sums - B >= min) return;
 		if(cnt == f) {
 			if(sums >= B) {
 				min = sums - B;
