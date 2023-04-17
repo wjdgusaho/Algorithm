@@ -11,7 +11,7 @@ import java.util.Stack;
 public class Main {
 	
 	static List<int[]> list;
-	static List<String> anList;
+	static Set<String> set;
 	static boolean[] visited;
 	static char[] arr;
 	public static void main(String[] args) throws IOException{
@@ -44,14 +44,14 @@ public class Main {
 		
 		//부분집합을 위한 사용중인지 아닌지 확인을 위한 visited
 		visited = new boolean[list.size()];
-		//정답리스트 ( 사전식으로 정렬 때문에 사용 )
-		anList = new ArrayList<>();
+		//set (부분집합으로 나온값이 중복일수도 있기때문 )
+		set = new HashSet<>();
 	
 		subset(0);
 		
-		Set<String> toset = new HashSet<>(anList);
-		anList = new ArrayList<>(toset);
-		
+		//set값을 List 타입으로 변환 (사전식으로 정렬 하기위해)
+		List<String> anList = new ArrayList<>(set);
+		//정렬
 		Collections.sort(anList);
 		
 		//결과 출력
@@ -86,8 +86,8 @@ public class Main {
 			for(int i = 0; i < copyStr.length; i++) {
 				if(copyStr[i] != ' ')sb.append(copyStr[i]);
 			}
-			//완성된 정답 리스트에 추가
-			anList.add(sb.toString());
+			//완성된 정답 set에 추가 (자동 중복체크)
+			set.add(sb.toString());
 			//System.out.println();
 			return;
 		}
@@ -98,5 +98,5 @@ public class Main {
 		subset(cnt+1);
 		
 	}
-
+	
 }
