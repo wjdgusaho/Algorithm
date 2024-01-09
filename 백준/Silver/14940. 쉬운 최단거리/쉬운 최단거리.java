@@ -4,7 +4,7 @@ import java.io.*;
 public class Main {
 	
 	public static int N, M;
-	public static int[][] map, result;
+	public static int[][] map;
 	public static int[] start;
 	public static boolean[][] visited;
 	public static void main(String[] args) throws IOException {
@@ -14,12 +14,10 @@ public class Main {
 		
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
-		
+
 		start = new int[2];
-		
 		map = new int[N][M];
 		visited = new boolean[N][M];
-		result = new int[N][M];
 		
 		for(int i = 0; i< N; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -49,7 +47,7 @@ public class Main {
 			for(int i = 0 ; i < size; i++) {
 				//방문한 레벨 저장
 				int[] tmp = que.poll();
-				result[tmp[0]][tmp[1]] = level;
+				map[tmp[0]][tmp[1]] = level;
 			
 				for(int j = 0; j < 4; j++) {
 					int nr = dr[j] + tmp[0];
@@ -67,19 +65,21 @@ public class Main {
 	}
 	
 	public static void out() {
+		StringBuffer sb = new StringBuffer();
 		for(int i = 0; i < N; i++) {
 			for(int j = 0; j < M; j++) {
-				System.out.print(result[i][j] + " ");
+				sb.append(map[i][j] + " ");
 			}
-			System.out.println();
+			sb.append("\n");
 		}
+		System.out.println(sb);
 	}
 	
 	public static void check() {
 		for(int i = 0; i < N; i++) {
 			for(int j = 0; j < M; j++) {
-				if(result[i][j] == 0 && map[i][j] != 2 && map[i][j] != 0) {
-					result[i][j] = -1;
+				if(map[i][j] != 0 && !visited[i][j]) {
+					map[i][j] = -1;
 				}
 			}
 		}
