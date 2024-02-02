@@ -66,8 +66,6 @@ public class Main {
 		dist[start] = 0;
 		pq.offer(new Data(start, dist[start]));
 		
-		pq.offer(new Data(start, dist[start]));
-		
 		while(!pq.isEmpty()) {
 			Data tmp = (Data) pq.poll();
 			if(dist[tmp.node] < tmp.cost) continue;
