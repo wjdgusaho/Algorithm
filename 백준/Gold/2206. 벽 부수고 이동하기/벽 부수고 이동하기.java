@@ -18,8 +18,9 @@ public class Main {
 		for(int i = 0; i < N; i++) {
 			map[i] = Arrays.stream(br.readLine().split("")).mapToInt(Integer::parseInt).toArray();
 		}
-		int b = bfs(0, 0);
-		System.out.println(b);
+		int a = bfs(N-1, M-1, false);
+		int b = bfs(0, 0, true);
+		System.out.println(Math.min(a, b) == -1 ? Math.max(a, b) : Math.min(a, b));
 	}
 	
 	public static class Data {
@@ -33,16 +34,15 @@ public class Main {
 		}
 	}
 	
-	public static boolean[][][] visited;
+	public static boolean[][] visited;
 	public static int[] dr = {0, 0, -1, 1};
 	public static int[] dc = {-1, 1, 0, 0};
-	public static int bfs(int sR, int sC) {
+	public static int bfs(int sR, int sC, boolean first) {
 		
-		visited = new boolean[2][N][M];		
+		visited = new boolean[N][M];		
 		Queue<Data> que = new ArrayDeque<Data>();
 		que.offer(new Data(sR, sC, true));
-		visited[0][sR][sC] = true;
-		visited[1][sR][sC] = true;
+		visited[sR][sC] = true;
 		
 		int level = 1;
 		boolean endPoint = false;
@@ -51,7 +51,10 @@ public class Main {
 			for(int s = 0; s < size; s++) {
 				Data tmp = (Data) que.poll();
 				//System.out.println(tmp.r + " " + tmp.c + " | "+ tmp.bAble + " | " + level);
-				if(tmp.r == N-1 && tmp.c == M-1) {
+				if(tmp.r == 0 && tmp.c == 0 && !first) {
+					return level;
+				}
+				if(tmp.r == N-1 && tmp.c == M-1 && first) {
 					return level;
 				}
 				for(int i = 0; i < 4; i++) {	
@@ -59,23 +62,16 @@ public class Main {
 					int nc = tmp.c + dc[i];
 					
 					if(nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
-					if(tmp.bAble) {
-						if(visited[0][nr][nc])continue;	
-						if(map[nr][nc] == 1) {
-							que.offer(new Data(nr, nc, false));
-							visited[1][nr][nc] = true;
-						}
-						else {
-							que.offer(new Data(nr, nc, tmp.bAble));
-							visited[0][nr][nc] = true;
-						}
+					if(visited[nr][nc])continue;
+					if(map[nr][nc] == 1 && tmp.bAble) {
+						visited[nr][nc] = true;				
+						que.offer(new Data(nr, nc, false));
 					}
-					else {
-						if(visited[1][nr][nc])continue;
-						if(map[nr][nc] == 1)continue;
+					else if(map[nr][nc] == 0) {
+						visited[nr][nc] = true;
 						que.offer(new Data(nr, nc, tmp.bAble));
-						visited[1][nr][nc] = true;
 					}
+					else continue;
 				}
 			}
 			level++;			
