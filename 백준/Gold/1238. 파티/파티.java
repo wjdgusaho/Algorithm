@@ -48,12 +48,6 @@ public class Main {
 			maxResult = Math.max(maxResult, result[i]);
 		}
 		System.out.println(maxResult);
-//		for(int i = 1; i < N+1; i++) {
-//			for(int[] a : graph[i]) {
-//				System.out.println(i + " " + a[0] + " " + a[1]);
-//			}
-//		}
-		
 	}
 	
 	public static class Data implements Comparable<Data>{
@@ -84,8 +78,6 @@ public class Main {
 		
 		while(!pq.isEmpty()) {
 			Data tmp = (Data) pq.poll();
-			//System.out.println(tmp.index);
-			//System.out.println(Arrays.toString(dist));
 			if(check[tmp.index]) continue;
 			check[tmp.index] = true;
 			
