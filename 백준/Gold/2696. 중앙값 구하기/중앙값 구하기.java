@@ -1,85 +1,63 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
 
-	static int N;
-	static int[] arr;
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static void main(String[] args) throws IOException{
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
 		int T = Integer.parseInt(br.readLine());
+		StringBuffer sb = new StringBuffer();
 		
 		for(int t = 0; t < T; t++) {
-			N = Integer.parseInt(br.readLine());
-			arr = new int[N];
+			int M = Integer.parseInt(br.readLine());
+			PriorityQueue<Integer> MinHeap = new PriorityQueue<Integer>();
+			PriorityQueue<Integer> MaxHeap = new PriorityQueue<Integer>((o1, o2)-> o2- o1);
 			
-			int cnt = N/10;
-			if(N%10 > 0) cnt += 1;
+			StringBuffer sbT = new StringBuffer(); 
+			int cnt = 0;
 			
-			int idx = 0;
-			for(int i = 0; i < cnt; i++) {
+			
+			int level = M/10 + 1;
+			int lastSize = M%10;
+			int numCnt = 0;
+			
+			for(int m = 0; m < level; m++) {
+	
 				StringTokenizer st = new StringTokenizer(br.readLine());
-				while(st.hasMoreTokens()) {
-					arr[idx++] = Integer.parseInt(st.nextToken());
+				int N = m != level-1 ? 10 : lastSize;
+				
+				for(int n = 0; n < N; n++) {
+					int tmp = Integer.parseInt(st.nextToken());
+					numCnt++;
+	
+					if(MaxHeap.size() == 0) {
+						MaxHeap.offer(tmp);
+					}else {
+						int MinSize =  MinHeap.size();
+						int MaxSize =  MaxHeap.size();
+						
+						if( MinSize == MaxSize ) MaxHeap.offer(tmp);
+						else MinHeap.offer(tmp);
+						
+						if(MinHeap.peek() < MaxHeap.peek()) {
+							int A = MaxHeap.poll();
+							int B = MinHeap.poll();
+							MaxHeap.offer(B);
+							MinHeap.offer(A);
+						}
+					}
+					
+					if( numCnt % 2 != 0) {
+						cnt++;
+						sbT.append(MaxHeap.peek() +" ");
+						if(cnt%10 == 0) sbT.append("\n");
+					}		
 				}
+				
 			}
-			//System.out.println(Arrays.toString(arr));
-			check();
+			sb.append(cnt +"\n" + sbT +"\n");
 		}
-		
-	}
-	private static void check() {
-		
-		PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>(){
-			@Override
-			public int compare(Integer o1, Integer o2) {
-				return o1 - o2;
-			}});
-		
-		StringBuffer sb = new StringBuffer();
-		int allCnt = 0;
-		int cnt = 0;
-		
-		Queue<Integer> que = new LinkedList<>();
-		
-		for(int i = 1; i <= N; i++) {
-			
-			pq.offer(arr[i-1]);
-			
-			if(i%2==0) continue; //짝수는 날려라
-			
-			//pq큐 -> que
-			int queSize = pq.size()/2;
-			for(int j = 0; j < queSize; j++) {
-				que.offer(pq.poll());
-			}
-			
-			int tmp = pq.poll();
-			pq.offer(tmp);
-			sb.append(tmp + " ");
-			
-			cnt++;
-			allCnt++;
-			if(cnt == 10) {
-				cnt = 0;
-				sb.append("\n");
-			}
-			
-			while(!que.isEmpty()) {
-				pq.offer(que.poll());
-			}
-			
-		}
-		System.out.println(allCnt);
-		System.out.println(sb.toString());
+		System.out.println(sb);
 	}
 }
